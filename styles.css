@@ -1,0 +1,274 @@
+/* ==============================
+   VARIABLES
+   ============================== */
+
+:root {
+    --color-principal: #e63946;
+    --color-principal-hover: #c92f3b;
+    --color-fondo: #f8f8f8;
+    --color-blanco: #ffffff;
+    --color-texto: #1a1a1a;
+    --color-texto-secundario: #666666;
+    --color-borde: #e5e5e5;
+
+    --max-ancho: 1200px;
+
+    --espacio-pequeno: 10px;
+    --espacio-medio: 20px;
+    --espacio-grande: 60px;
+
+    --radio: 8px;
+}
+
+
+/* ==============================
+   ESTILOS GENERALES
+   ============================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+main {
+    width: 100%;
+}
+
+
+/* ==============================
+   HEADER
+   ============================== */
+
+header {
+    background-color: var(--color-blanco);
+    border-bottom: 1px solid var(--color-borde);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+nav {
+    max-width: var(--max-ancho);
+    margin: 0 auto;
+    padding: 18px 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav>a {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-principal);
+}
+
+nav div {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+nav div a {
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+nav div a:hover {
+    color: var(--color-principal);
+}
+
+/* ==============================
+   HERO
+   ============================== */
+
+#hero {
+    min-height: 600px;
+    max-width: var(--max-ancho);
+    margin: 0 auto;
+    padding: 100px 30px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#hero h1 {
+    max-width: 700px;
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 25px;
+}
+
+#hero p {
+    max-width: 600px;
+    color: var(--color-texto-secundario);
+    font-size: 1.2rem;
+}
+
+
+/* ==============================
+   SECCIONES
+   ============================== */
+
+#catalogo,
+#como-funciona,
+#vender {
+    max-width: var(--max-ancho);
+    margin: 0 auto;
+    padding: var(--espacio-grande) 30px;
+}
+
+section h2 {
+    font-size: 2.2rem;
+    margin-bottom: 15px;
+}
+
+section p {
+    color: var(--color-texto-secundario);
+}
+
+
+/* ==============================
+   PREPARACIÓN DEL CATÁLOGO
+   ============================== */
+
+/*
+   Más adelante aquí estarán las tarjetas
+   generadas por JavaScript.
+
+   Dejamos preparado Grid porque la entrega
+   exige que el catálogo utilice CSS Grid.
+*/
+
+#catalogo {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+}
+
+
+/* ==============================
+   CÓMO FUNCIONA
+   ============================== */
+
+#como-funciona {
+    background-color: var(--color-blanco);
+    border-radius: var(--radio);
+}
+
+
+/* ==============================
+   VENDER MANGA
+   ============================== */
+
+#vender {
+    text-align: center;
+}
+
+#vender p {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+
+/* ==============================
+   FOOTER
+   ============================== */
+
+footer {
+    margin-top: var(--espacio-grande);
+    padding: 30px;
+    background-color: var(--color-texto);
+    color: var(--color-blanco);
+    text-align: center;
+}
+
+footer p {
+    color: #cccccc;
+    font-size: 0.9rem;
+}
+
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+
+/* Tablet */
+@media (max-width: 768px) {
+
+    nav {
+        padding: 16px 20px;
+    }
+
+    nav div {
+        gap: 15px;
+    }
+
+    #hero {
+        min-height: 500px;
+        padding: 70px 20px;
+    }
+
+    #hero h1 {
+        font-size: 2.8rem;
+    }
+
+    #catalogo,
+    #como-funciona,
+    #vender {
+        padding: 50px 20px;
+    }
+}
+
+
+/* Móvil */
+@media (max-width: 600px) {
+
+    nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav div {
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    #hero {
+        min-height: 450px;
+        padding: 50px 20px;
+    }
+
+    #hero h1 {
+        font-size: 2.3rem;
+    }
+
+    #hero p {
+        font-size: 1rem;
+    }
+
+    section h2 {
+        font-size: 1.8rem;
+    }
+}
