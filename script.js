@@ -546,22 +546,31 @@ function mostrarCarrito() {
     carrito.forEach(function (producto) {
         const subtotal = producto.precio * producto.cantidad;
         const elemento = document.createElement("article");
-        elemento.className = "carrito-producto";
+        elemento.className = "manga-card carrito-card";
         elemento.innerHTML = `
-            <img src="${producto.imagen}" alt="Portada de ${producto.titulo}, volumen ${producto.volumen}"
-                onerror="this.onerror=null; this.src='https://placehold.co/180x260/eeeeee/333333?text=Sin+Portada';">
-            <div class="carrito-producto-info">
-                <h2>${producto.titulo}</h2>
-                <p>Tomo ${producto.volumen}</p>
-                <strong>$${producto.precio.toLocaleString("es-CO")}</strong>
+            <div class="carrito-card-imagen">
+                <img src="${producto.imagen}" alt="Portada de ${producto.titulo}, volumen ${producto.volumen}"
+                    onerror="this.onerror=null; this.src='https://placehold.co/180x260/eeeeee/333333?text=Sin+Portada';">
             </div>
-            <div class="controles-cantidad" aria-label="Cantidad de ${producto.titulo}">
-                <button type="button" class="btn-cantidad" data-accion="disminuir" data-id="${producto.id}" aria-label="Disminuir cantidad">-</button>
-                <span aria-live="polite">${producto.cantidad}</span>
-                <button type="button" class="btn-cantidad" data-accion="aumentar" data-id="${producto.id}" aria-label="Aumentar cantidad">+</button>
+
+            <div class="manga-card-content carrito-card-content">
+                <span class="manga-genero">Manga</span>
+                <h3>${producto.titulo}</h3>
+                <p class="manga-volumen">Tomo ${producto.volumen}</p>
+                <strong class="manga-precio">$${producto.precio.toLocaleString("es-CO")}</strong>
+
+                <div class="carrito-acciones">
+                    <div class="controles-cantidad" aria-label="Cantidad de ${producto.titulo}">
+                        <button type="button" class="btn-cantidad" data-accion="disminuir" data-id="${producto.id}" aria-label="Disminuir cantidad">−</button>
+                        <span aria-live="polite">${producto.cantidad}</span>
+                        <button type="button" class="btn-cantidad" data-accion="aumentar" data-id="${producto.id}" aria-label="Aumentar cantidad">+</button>
+                    </div>
+
+                    <button type="button" class="btn-eliminar" data-accion="eliminar" data-id="${producto.id}">Eliminar</button>
+                </div>
+
+                <p class="carrito-subtotal">Subtotal: <strong>$${subtotal.toLocaleString("es-CO")}</strong></p>
             </div>
-            <p class="carrito-subtotal">Subtotal: <strong>$${subtotal.toLocaleString("es-CO")}</strong></p>
-            <button type="button" class="btn-eliminar" data-accion="eliminar" data-id="${producto.id}">Eliminar</button>
         `;
         listaCarrito.appendChild(elemento);
     });
