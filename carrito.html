@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito | Re-Manga</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="index.html#hero">Re-Manga</a>
+
+            <div>
+                <a href="index.html#hero">Inicio</a>
+                <a href="index.html#catalogo">Catálogo</a>
+                <a href="index.html#como-funciona">Cómo funciona</a>
+                <a href="index.html#vender">Vender manga</a>
+                <a href="registro.html">Registrarse</a>
+                <a href="carrito.html" aria-current="page">Carrito (<span class="contador-carrito">0</span>)</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="carrito" aria-labelledby="titulo-carrito">
+            <h1 id="titulo-carrito">Tu carrito</h1>
+            <div id="carrito-vacio" class="carrito-vacio" hidden>
+                <p>Tu carrito está vacío</p>
+                <p>Explora nuestro catálogo y encuentra tu próximo manga.</p>
+                <a class="boton-carrito boton-principal" href="index.html#catalogo">Ver catálogo</a>
+            </div>
+
+            <div id="resumen-carrito" class="resumen-carrito" hidden>
+                <div id="lista-carrito" class="lista-carrito"></div>
+                <div class="carrito-total">
+                    <p>Total <strong id="total-carrito">$0</strong></p>
+                    <div class="acciones-carrito">
+                        <button id="vaciar-carrito" class="boton-carrito boton-secundario" type="button">Vaciar carrito</button>
+                        <a class="boton-carrito boton-principal" href="index.html#catalogo">Continuar comprando</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Re-Manga. Manga de segunda mano.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -244,6 +244,94 @@ function normalizarGenero(genero) {
     return genero.replace("Shounen", "Shonen").replace("Shoujo", "Shojo");
 }
 
+// ==============================
+// CARRITO
+// ==============================
+
+function obtenerCarrito() {
+    try {
+        return JSON.parse(localStorage.getItem("carrito") || "[]");
+    } catch (error) {
+        return [];
+    }
+}
+
+function guardarCarrito(carrito) {
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+}
+
+function actualizarContadorCarrito() {
+    const cantidadTotal = obtenerCarrito().reduce(function (total, producto) {
+        return total + producto.cantidad;
+    }, 0);
+
+    document.querySelectorAll(".contador-carrito").forEach(function (contador) {
+        contador.textContent = cantidadTotal;
+    });
+}
+
+function agregarAlCarrito(id) {
+    const manga = mangas.find(function (producto) {
+        return producto.id === id;
+    });
+    if (!manga) return;
+
+    const carrito = obtenerCarrito();
+    const productoExistente = carrito.find(function (producto) {
+        return producto.id === id;
+    });
+
+    if (productoExistente) {
+        productoExistente.cantidad += 1;
+    } else {
+        carrito.push({
+            id: manga.id,
+            titulo: manga.titulo,
+            volumen: manga.volumen,
+            precio: manga.precio,
+            imagen: manga.imagen,
+            cantidad: 1
+        });
+    }
+
+    guardarCarrito(carrito);
+    actualizarContadorCarrito();
+}
+
+function eliminarDelCarrito(id) {
+    const carrito = obtenerCarrito().filter(function (producto) {
+        return producto.id !== id;
+    });
+    guardarCarrito(carrito);
+    mostrarCarrito();
+    actualizarContadorCarrito();
+}
+
+function cambiarCantidad(id, cantidad) {
+    const carrito = obtenerCarrito();
+    const producto = carrito.find(function (elemento) {
+        return elemento.id === id;
+    });
+
+    if (!producto) return;
+
+    producto.cantidad = cantidad;
+    if (producto.cantidad <= 0) {
+        eliminarDelCarrito(id);
+        return;
+    }
+
+    guardarCarrito(carrito);
+    mostrarCarrito();
+    actualizarContadorCarrito();
+}
+
+function vaciarCarrito() {
+    guardarCarrito([]);
+    mostrarCarrito();
+    actualizarContadorCarrito();
+}
+
 function filtrarMangas() {
     const textoBusqueda = campoBusqueda.value.trim().toLowerCase();
 
@@ -290,6 +378,10 @@ function mostrarMangas(mangasFiltrados) {
                 <strong class="manga-precio">
                     $${manga.precio.toLocaleString("es-CO")}
                 </strong>
+
+                <button class="btn-agregar-carrito" type="button" data-id="${manga.id}">
+                    Agregar al carrito
+                </button>
             </div>
         `;
 
@@ -299,6 +391,12 @@ function mostrarMangas(mangasFiltrados) {
     const noHayResultados = mangasFiltrados.length === 0;
     mensajeSinResultados.hidden = !noHayResultados;
     botonVerMas.hidden = mangasVisibles >= mangasFiltrados.length || noHayResultados;
+
+    catalogoGridContainer.querySelectorAll(".btn-agregar-carrito").forEach(function (boton) {
+        boton.addEventListener("click", function () {
+            agregarAlCarrito(Number(boton.dataset.id));
+        });
+    });
 }
 
 function actualizarCatalogo() {
@@ -426,3 +524,77 @@ if (formularioRegistro) {
         mensajeRegistro.classList.add("mensaje-exito");
     });
 }
+
+function mostrarCarrito() {
+    const listaCarrito = document.querySelector("#lista-carrito");
+    const resumenCarrito = document.querySelector("#resumen-carrito");
+    const estadoCarritoVacio = document.querySelector("#carrito-vacio");
+    if (!listaCarrito || !resumenCarrito || !estadoCarritoVacio) return;
+
+    const carrito = obtenerCarrito();
+    listaCarrito.innerHTML = "";
+
+    if (carrito.length === 0) {
+        estadoCarritoVacio.hidden = false;
+        resumenCarrito.hidden = true;
+        return;
+    }
+
+    estadoCarritoVacio.hidden = true;
+    resumenCarrito.hidden = false;
+
+    carrito.forEach(function (producto) {
+        const subtotal = producto.precio * producto.cantidad;
+        const elemento = document.createElement("article");
+        elemento.className = "carrito-producto";
+        elemento.innerHTML = `
+            <img src="${producto.imagen}" alt="Portada de ${producto.titulo}, volumen ${producto.volumen}"
+                onerror="this.onerror=null; this.src='https://placehold.co/180x260/eeeeee/333333?text=Sin+Portada';">
+            <div class="carrito-producto-info">
+                <h2>${producto.titulo}</h2>
+                <p>Tomo ${producto.volumen}</p>
+                <strong>$${producto.precio.toLocaleString("es-CO")}</strong>
+            </div>
+            <div class="controles-cantidad" aria-label="Cantidad de ${producto.titulo}">
+                <button type="button" class="btn-cantidad" data-accion="disminuir" data-id="${producto.id}" aria-label="Disminuir cantidad">-</button>
+                <span aria-live="polite">${producto.cantidad}</span>
+                <button type="button" class="btn-cantidad" data-accion="aumentar" data-id="${producto.id}" aria-label="Aumentar cantidad">+</button>
+            </div>
+            <p class="carrito-subtotal">Subtotal: <strong>$${subtotal.toLocaleString("es-CO")}</strong></p>
+            <button type="button" class="btn-eliminar" data-accion="eliminar" data-id="${producto.id}">Eliminar</button>
+        `;
+        listaCarrito.appendChild(elemento);
+    });
+
+    const total = carrito.reduce(function (suma, producto) {
+        return suma + producto.precio * producto.cantidad;
+    }, 0);
+    document.querySelector("#total-carrito").textContent = `$${total.toLocaleString("es-CO")}`;
+}
+
+document.addEventListener("click", function (evento) {
+    const boton = evento.target.closest("[data-accion]");
+    if (!boton) return;
+
+    const id = Number(boton.dataset.id);
+    const producto = obtenerCarrito().find(function (elemento) {
+        return elemento.id === id;
+    });
+
+    if (boton.dataset.accion === "eliminar") {
+        eliminarDelCarrito(id);
+    } else if (producto) {
+        const cambio = boton.dataset.accion === "aumentar" ? 1 : -1;
+        cambiarCantidad(id, producto.cantidad + cambio);
+    }
+});
+
+const botonVaciarCarrito = document.querySelector("#vaciar-carrito");
+if (botonVaciarCarrito) {
+    botonVaciarCarrito.addEventListener("click", function () {
+        if (confirm("¿Quieres vaciar tu carrito?")) vaciarCarrito();
+    });
+}
+
+actualizarContadorCarrito();
+mostrarCarrito();
