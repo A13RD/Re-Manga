@@ -231,13 +231,37 @@ const mangas = [
 
 // Renombramos la variable para evitar colisiones con el id="catalogo" del HTML
 const catalogoGridContainer = document.querySelector("#catalogo-grid");
+const botonesGenero = document.querySelectorAll(".filtro-genero");
+const campoBusqueda = document.querySelector("#busqueda-manga");
+const botonVerMas = document.querySelector("#ver-mas");
+const mensajeSinResultados = document.querySelector("#mensaje-sin-resultados");
 
-function mostrarMangas() {
+const mangasPorCarga = 6;
+let mangasVisibles = mangasPorCarga;
+let generoSeleccionado = "Todos";
+
+function normalizarGenero(genero) {
+    return genero.replace("Shounen", "Shonen").replace("Shoujo", "Shojo");
+}
+
+function filtrarMangas() {
+    const textoBusqueda = campoBusqueda.value.trim().toLowerCase();
+
+    return mangas.filter(function (manga) {
+        const coincideGenero = generoSeleccionado === "Todos"
+            || normalizarGenero(manga.genero) === generoSeleccionado;
+        const coincideBusqueda = manga.titulo.toLowerCase().includes(textoBusqueda);
+
+        return coincideGenero && coincideBusqueda;
+    });
+}
+
+function mostrarMangas(mangasFiltrados) {
     if (!catalogoGridContainer) return; // Validación de seguridad
 
     catalogoGridContainer.innerHTML = "";
 
-    mangas.forEach(function (manga) {
+    mangasFiltrados.slice(0, mangasVisibles).forEach(function (manga) {
         const tarjeta = document.createElement("article");
         tarjeta.classList.add("manga-card");
 
@@ -271,10 +295,38 @@ function mostrarMangas() {
 
         catalogoGridContainer.appendChild(tarjeta);
     });
+
+    const noHayResultados = mangasFiltrados.length === 0;
+    mensajeSinResultados.hidden = !noHayResultados;
+    botonVerMas.hidden = mangasVisibles >= mangasFiltrados.length || noHayResultados;
 }
 
-// ==============================
-// INICIAR CATÁLOGO
-// ==============================
+function actualizarCatalogo() {
+    mostrarMangas(filtrarMangas());
+}
 
-mostrarMangas();
+botonesGenero.forEach(function (boton) {
+    boton.addEventListener("click", function () {
+        generoSeleccionado = boton.dataset.genero;
+        mangasVisibles = mangasPorCarga;
+
+        botonesGenero.forEach(function (otroBoton) {
+            otroBoton.classList.toggle("activo", otroBoton === boton);
+        });
+
+        actualizarCatalogo();
+    });
+});
+
+campoBusqueda.addEventListener("input", function () {
+    mangasVisibles = mangasPorCarga;
+    actualizarCatalogo();
+});
+
+botonVerMas.addEventListener("click", function () {
+    mangasVisibles += mangasPorCarga;
+    actualizarCatalogo();
+});
+
+// El catálogo inicia limitado a seis resultados.
+actualizarCatalogo();

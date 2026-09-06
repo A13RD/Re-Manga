@@ -36,9 +36,29 @@
                 Explora nuestra colección de mangas de segunda mano.
             </p>
 
+            <div class="catalogo-controles">
+                <div class="filtros-genero" role="group" aria-label="Filtrar por género">
+                    <button class="filtro-genero activo" type="button" data-genero="Todos">Todos</button>
+                    <button class="filtro-genero" type="button" data-genero="Shonen">Shonen</button>
+                    <button class="filtro-genero" type="button" data-genero="Seinen">Seinen</button>
+                    <button class="filtro-genero" type="button" data-genero="Shojo">Shojo</button>
+                </div>
+
+                <label class="busqueda-manga">
+                    <span class="texto-oculto">Buscar manga</span>
+                    <input id="busqueda-manga" type="search" placeholder="Buscar manga..." autocomplete="off">
+                </label>
+            </div>
+
             <div id="catalogo-grid">
                 <!-- Las tarjetas serán generadas por JavaScript -->
             </div>
+
+            <p id="mensaje-sin-resultados" class="mensaje-sin-resultados" hidden>
+                No encontramos mangas que coincidan con tu búsqueda.
+            </p>
+
+            <button id="ver-mas" class="boton-ver-mas" type="button">Ver más</button>
         </section>
         <section id="como-funciona">
             <h2>Cómo funciona</h2>
