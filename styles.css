@@ -366,6 +366,112 @@ section p {
 
 
 /* ==============================
+   REGISTRO
+   ============================== */
+
+.registro-main {
+    min-height: calc(100vh - 170px);
+}
+
+.registro-seccion {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: var(--espacio-grande) 30px;
+}
+
+.registro-tarjeta {
+    background-color: var(--color-blanco);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+    padding: 40px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.registro-tarjeta h1 {
+    margin-bottom: 10px;
+    font-size: 2.2rem;
+}
+
+.registro-tarjeta > p {
+    margin-bottom: 30px;
+    color: var(--color-texto-secundario);
+}
+
+.campo-formulario {
+    margin-bottom: 20px;
+}
+
+.campo-formulario label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: 700;
+}
+
+.campo-formulario input {
+    width: 100%;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+    padding: 12px 14px;
+    color: var(--color-texto);
+    font: inherit;
+}
+
+.campo-formulario input:focus {
+    outline: 2px solid var(--color-principal);
+    outline-offset: 2px;
+}
+
+.campo-formulario input[aria-invalid="true"] {
+    border-color: var(--color-principal);
+}
+
+.mensaje-error {
+    min-height: 22px;
+    margin-top: 5px;
+    color: var(--color-principal);
+    font-size: 0.9rem;
+}
+
+.boton-registro {
+    width: 100%;
+    border: 0;
+    border-radius: var(--radio);
+    padding: 13px 18px;
+    background-color: var(--color-principal);
+    color: var(--color-blanco);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    transition: background-color 0.2s ease;
+}
+
+.boton-registro:hover {
+    background-color: var(--color-principal-hover);
+}
+
+.mensaje-registro {
+    min-height: 24px;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.mensaje-exito {
+    color: #238636;
+    font-weight: 700;
+}
+
+.enlace-catalogo {
+    margin: 25px 0 0;
+    text-align: center;
+}
+
+.enlace-catalogo a {
+    color: var(--color-principal);
+    font-weight: 700;
+}
+
+
+/* ==============================
    FOOTER
    ============================== */
 
@@ -444,5 +550,17 @@ footer p {
 
     section h2 {
         font-size: 1.8rem;
+    }
+
+    .registro-seccion {
+        padding: 40px 20px;
+    }
+
+    .registro-tarjeta {
+        padding: 28px 20px;
+    }
+
+    .registro-tarjeta h1 {
+        font-size: 1.9rem;
     }
 }

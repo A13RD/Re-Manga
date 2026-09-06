@@ -305,28 +305,124 @@ function actualizarCatalogo() {
     mostrarMangas(filtrarMangas());
 }
 
-botonesGenero.forEach(function (boton) {
-    boton.addEventListener("click", function () {
-        generoSeleccionado = boton.dataset.genero;
-        mangasVisibles = mangasPorCarga;
+if (catalogoGridContainer) {
+    botonesGenero.forEach(function (boton) {
+        boton.addEventListener("click", function () {
+            generoSeleccionado = boton.dataset.genero;
+            mangasVisibles = mangasPorCarga;
 
-        botonesGenero.forEach(function (otroBoton) {
-            otroBoton.classList.toggle("activo", otroBoton === boton);
+            botonesGenero.forEach(function (otroBoton) {
+                otroBoton.classList.toggle("activo", otroBoton === boton);
+            });
+
+            actualizarCatalogo();
         });
+    });
 
+    campoBusqueda.addEventListener("input", function () {
+        mangasVisibles = mangasPorCarga;
         actualizarCatalogo();
     });
-});
 
-campoBusqueda.addEventListener("input", function () {
-    mangasVisibles = mangasPorCarga;
+    botonVerMas.addEventListener("click", function () {
+        mangasVisibles += mangasPorCarga;
+        actualizarCatalogo();
+    });
+
+    // El catálogo inicia limitado a seis resultados.
     actualizarCatalogo();
-});
+}
 
-botonVerMas.addEventListener("click", function () {
-    mangasVisibles += mangasPorCarga;
-    actualizarCatalogo();
-});
+// ==============================
+// REGISTRO DE USUARIOS
+// ==============================
 
-// El catálogo inicia limitado a seis resultados.
-actualizarCatalogo();
+const formularioRegistro = document.querySelector("#formulario-registro");
+
+if (formularioRegistro) {
+    const campoNombre = document.querySelector("#nombre");
+    const campoEmail = document.querySelector("#email");
+    const campoPassword = document.querySelector("#password");
+    const campoConfirmacion = document.querySelector("#confirmar-password");
+    const mensajeRegistro = document.querySelector("#mensaje-registro");
+
+    function mostrarError(campo, mensaje) {
+        const contenedor = campo.closest(".campo-formulario");
+        const mensajeError = contenedor.querySelector(".mensaje-error");
+
+        campo.setAttribute("aria-invalid", "true");
+        mensajeError.textContent = mensaje;
+    }
+
+    function limpiarErrores() {
+        formularioRegistro.querySelectorAll(".mensaje-error").forEach(function (mensaje) {
+            mensaje.textContent = "";
+        });
+
+        formularioRegistro.querySelectorAll("input").forEach(function (campo) {
+            campo.removeAttribute("aria-invalid");
+        });
+
+        mensajeRegistro.textContent = "";
+        mensajeRegistro.className = "mensaje-registro";
+    }
+
+    formularioRegistro.addEventListener("submit", function (evento) {
+        evento.preventDefault();
+        limpiarErrores();
+
+        const nombre = campoNombre.value.trim();
+        const email = campoEmail.value.trim().toLowerCase();
+        const password = campoPassword.value;
+        const confirmacion = campoConfirmacion.value;
+        let formularioValido = true;
+
+        if (!nombre) {
+            mostrarError(campoNombre, "El nombre es obligatorio.");
+            formularioValido = false;
+        }
+
+        if (!campoEmail.validity.valid || !email) {
+            mostrarError(campoEmail, "Introduce un correo válido.");
+            formularioValido = false;
+        }
+
+        if (!password) {
+            mostrarError(campoPassword, "La contraseña es obligatoria.");
+            formularioValido = false;
+        } else if (password.length < 8) {
+            mostrarError(campoPassword, "La contraseña debe tener al menos 8 caracteres.");
+            formularioValido = false;
+        }
+
+        if (!confirmacion) {
+            mostrarError(campoConfirmacion, "Confirma tu contraseña.");
+            formularioValido = false;
+        } else if (password !== confirmacion) {
+            mostrarError(campoConfirmacion, "Las contraseñas no coinciden.");
+            formularioValido = false;
+        }
+
+        if (!formularioValido) return;
+
+        const usuariosGuardados = JSON.parse(localStorage.getItem("usuarios") || "[]");
+        const correoRegistrado = usuariosGuardados.some(function (usuario) {
+            return usuario.email.toLowerCase() === email;
+        });
+
+        if (correoRegistrado) {
+            mostrarError(campoEmail, "No se puede registrar este correo porque ya existe una cuenta.");
+            return;
+        }
+
+        const nuevoUsuario = { nombre, email, password };
+        // Solo para esta simulación frontend. En producción la contraseña debe gestionarse
+        // de forma segura en el backend y nunca almacenarse así.
+        usuariosGuardados.push(nuevoUsuario);
+        localStorage.setItem("usuarios", JSON.stringify(usuariosGuardados));
+
+        formularioRegistro.reset();
+        mensajeRegistro.textContent = "¡Registro exitoso! Bienvenido a Re-Manga.";
+        mensajeRegistro.classList.add("mensaje-exito");
+    });
+}
