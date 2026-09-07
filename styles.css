@@ -10,6 +10,8 @@
     --color-texto: #1a1a1a;
     --color-texto-secundario: #666666;
     --color-borde: #e5e5e5;
+    --color-superficie-secundaria: #f1f1f1;
+    --color-sombra: rgba(0, 0, 0, 0.08);
 
     --max-ancho: 1200px;
 
@@ -18,6 +20,16 @@
     --espacio-grande: 60px;
 
     --radio: 8px;
+}
+
+body.modo-oscuro {
+    --color-fondo: #1d2025;
+    --color-blanco: #292e35;
+    --color-texto: #f3f4f6;
+    --color-texto-secundario: #b9bec7;
+    --color-borde: #454b55;
+    --color-superficie-secundaria: #343a43;
+    --color-sombra: rgba(0, 0, 0, 0.28);
 }
 
 
@@ -40,6 +52,7 @@ body {
     background-color: var(--color-fondo);
     color: var(--color-texto);
     line-height: 1.6;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 a {
@@ -62,6 +75,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 10;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 nav {
@@ -94,6 +108,33 @@ nav div a {
 
 nav div a:hover {
     color: var(--color-principal);
+}
+
+.boton-tema {
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio);
+    padding: 6px 10px;
+    background-color: var(--color-blanco);
+    color: var(--color-texto);
+    cursor: pointer;
+    font: inherit;
+    line-height: 1;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.boton-tema:hover {
+    border-color: var(--color-principal);
+    color: var(--color-principal);
+    transform: translateY(-1px);
+}
+
+.boton-tema:active {
+    transform: translateY(0);
+}
+
+.boton-tema:focus-visible {
+    outline: 3px solid rgba(230, 57, 70, 0.25);
+    outline-offset: 2px;
 }
 
 /* ==============================
@@ -190,7 +231,13 @@ section p {
     cursor: pointer;
     font: inherit;
     font-weight: 700;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filtro-genero:hover,
+.boton-ver-mas:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px var(--color-sombra);
 }
 
 .filtro-genero:hover,
@@ -212,6 +259,8 @@ section p {
     padding: 11px 14px;
     color: var(--color-texto);
     font: inherit;
+    background-color: var(--color-blanco);
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 #busqueda-manga:focus {
@@ -312,19 +361,19 @@ section p {
     flex-direction: column;
     height: 100%;
     border: 1px solid var(--color-borde);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 8px 20px var(--color-sombra);
 }
 
 .carrito-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 12px 26px var(--color-sombra);
 }
 
 .carrito-card-imagen {
     width: 100%;
     height: 230px;
     overflow: hidden;
-    background-color: #f1f1f1;
+    background-color: var(--color-superficie-secundaria);
 }
 
 .carrito-card-imagen img {
@@ -357,6 +406,7 @@ section p {
     border-radius: 10px;
     overflow: hidden;
     background-color: var(--color-blanco);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .btn-cantidad {
@@ -372,7 +422,7 @@ section p {
 }
 
 .btn-cantidad:hover {
-    background-color: #f5f5f5;
+    background-color: var(--color-superficie-secundaria);
 }
 
 .controles-cantidad span {
@@ -411,7 +461,7 @@ section p {
     border: 1px solid var(--color-borde);
     border-radius: var(--radio);
     padding: 26px 22px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 8px 20px var(--color-sombra);
     position: sticky;
     top: 90px;
 }
@@ -486,7 +536,7 @@ section p {
     border-radius: var(--radio);
     padding: 42px 30px;
     text-align: center;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 8px 20px var(--color-sombra);
 }
 
 .carrito-vacio p:first-child {
@@ -517,7 +567,7 @@ section p {
 
 .manga-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 10px 25px var(--color-sombra);
 }
 
 .manga-card img {
@@ -525,7 +575,7 @@ section p {
     height: 320px;
     object-fit: contain;
     display: block;
-    background-color: #eeeeee;
+    background-color: var(--color-superficie-secundaria);
 }
 
 .manga-card-content {
@@ -823,8 +873,10 @@ section p {
     border: 1px solid var(--color-borde);
     border-radius: var(--radio);
     padding: 12px 14px;
+    background-color: var(--color-blanco);
     color: var(--color-texto);
     font: inherit;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .campo-formulario input:focus {
@@ -853,11 +905,22 @@ section p {
     cursor: pointer;
     font: inherit;
     font-weight: 700;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .boton-registro:hover {
     background-color: var(--color-principal-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px var(--color-sombra);
+}
+
+.boton-registro:active {
+    transform: translateY(0);
+}
+
+.boton-registro:focus-visible {
+    outline: 3px solid rgba(230, 57, 70, 0.25);
+    outline-offset: 2px;
 }
 
 .mensaje-registro {
@@ -879,6 +942,51 @@ section p {
 .enlace-catalogo a {
     color: var(--color-principal);
     font-weight: 700;
+}
+
+body.pagina-cargada main > section {
+    animation: aparecer-seccion 0.45s ease both;
+}
+
+body.pagina-cargada main > section:nth-child(2) {
+    animation-delay: 0.06s;
+}
+
+body.pagina-cargada main > section:nth-child(3) {
+    animation-delay: 0.12s;
+}
+
+@keyframes aparecer-seccion {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+body.modo-oscuro .boton-secundario {
+    border-color: #d77a83;
+    background-color: var(--color-blanco);
+}
+
+body.modo-oscuro .boton-secundario:hover {
+    background-color: #3a2b2e;
+    border-color: #ef9aa2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
 }
 
 

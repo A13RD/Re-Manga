@@ -1,4 +1,34 @@
 // ==============================
+// TEMA VISUAL
+// ==============================
+
+const botonTema = document.querySelector("#boton-tema");
+const temaGuardado = localStorage.getItem("tema");
+
+function actualizarBotonTema() {
+    if (!botonTema) return;
+
+    const modoOscuroActivo = document.body.classList.contains("modo-oscuro");
+    botonTema.textContent = modoOscuroActivo ? "☀️" : "🌙";
+    botonTema.setAttribute("aria-label", modoOscuroActivo ? "Activar modo claro" : "Activar modo oscuro");
+    botonTema.setAttribute("aria-pressed", String(modoOscuroActivo));
+}
+
+if (temaGuardado === "oscuro") {
+    document.body.classList.add("modo-oscuro");
+}
+
+actualizarBotonTema();
+
+if (botonTema) {
+    botonTema.addEventListener("click", function () {
+        const modoOscuroActivo = document.body.classList.toggle("modo-oscuro");
+        localStorage.setItem("tema", modoOscuroActivo ? "oscuro" : "claro");
+        actualizarBotonTema();
+    });
+}
+
+// ==============================
 // DATOS DEL CATÁLOGO
 // ==============================
 
@@ -701,3 +731,4 @@ if (botonVaciarCarrito) {
 
 actualizarContadorCarrito();
 mostrarCarrito();
+document.body.classList.add("pagina-cargada");
