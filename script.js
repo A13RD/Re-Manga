@@ -525,6 +525,100 @@ if (formularioRegistro) {
     });
 }
 
+// ==============================
+// SOLICITUDES PARA VENDER MANGA
+// ==============================
+
+const formularioVenta = document.querySelector("#formulario-venta");
+
+if (formularioVenta) {
+    const camposVenta = {
+        titulo: formularioVenta.querySelector("#titulo-manga"),
+        volumen: formularioVenta.querySelector("#volumen-manga"),
+        autor: formularioVenta.querySelector("#autor-manga"),
+        genero: formularioVenta.querySelector("#genero-manga"),
+        precio: formularioVenta.querySelector("#precio-manga"),
+        estado: formularioVenta.querySelector("#estado-manga"),
+        nombre: formularioVenta.querySelector("#nombre-vendedor"),
+        email: formularioVenta.querySelector("#email-vendedor")
+    };
+    const mensajeVenta = formularioVenta.querySelector("#mensaje-venta");
+
+    function mostrarErrorVenta(campo, mensaje) {
+        const contenedor = campo.closest(".campo-venta");
+        const mensajeError = contenedor.querySelector(".mensaje-error");
+
+        campo.setAttribute("aria-invalid", "true");
+        mensajeError.textContent = mensaje;
+    }
+
+    function limpiarErroresVenta() {
+        formularioVenta.querySelectorAll(".mensaje-error").forEach(function (mensaje) {
+            mensaje.textContent = "";
+        });
+
+        formularioVenta.querySelectorAll("input, select").forEach(function (campo) {
+            campo.removeAttribute("aria-invalid");
+        });
+
+        mensajeVenta.textContent = "";
+        mensajeVenta.className = "mensaje-registro";
+    }
+
+    formularioVenta.addEventListener("submit", function (evento) {
+        evento.preventDefault();
+        limpiarErroresVenta();
+
+        const datosFormulario = new FormData(formularioVenta);
+        const volumen = Number(datosFormulario.get("volumen"));
+        const precio = Number(datosFormulario.get("precio"));
+        let formularioValido = true;
+
+        Object.values(camposVenta).forEach(function (campo) {
+            if (!campo.value.trim()) {
+                mostrarErrorVenta(campo, "Este campo es obligatorio.");
+                formularioValido = false;
+            }
+        });
+
+        if (!Number.isInteger(volumen) || volumen <= 0) {
+            mostrarErrorVenta(camposVenta.volumen, "El volumen debe ser un entero mayor que 0.");
+            formularioValido = false;
+        }
+
+        if (!Number.isFinite(precio) || precio <= 0) {
+            mostrarErrorVenta(camposVenta.precio, "El precio debe ser mayor que 0.");
+            formularioValido = false;
+        }
+
+        if (!camposVenta.email.validity.valid) {
+            mostrarErrorVenta(camposVenta.email, "Introduce un correo válido.");
+            formularioValido = false;
+        }
+
+        if (!formularioValido) return;
+
+        const solicitudVenta = {
+            titulo: datosFormulario.get("titulo").trim(),
+            volumen,
+            autor: datosFormulario.get("autor").trim(),
+            genero: datosFormulario.get("genero"),
+            precio,
+            estado: datosFormulario.get("estado"),
+            vendedor: {
+                nombre: datosFormulario.get("nombre").trim(),
+                email: datosFormulario.get("email").trim().toLowerCase()
+            }
+        };
+
+        // Aquí se conectaría posteriormente la petición a la API REST.
+        void solicitudVenta;
+        mensajeVenta.textContent = "¡Solicitud recibida! Hemos recibido la información de tu manga. Esta función estará conectada a nuestra base de datos próximamente.";
+        mensajeVenta.classList.add("mensaje-venta-exito");
+        formularioVenta.reset();
+    });
+}
+
 function mostrarCarrito() {
     const listaCarrito = document.querySelector("#lista-carrito");
     const resumenCarrito = document.querySelector("#resumen-carrito");

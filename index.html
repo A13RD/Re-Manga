@@ -68,6 +68,26 @@
             <p>
                 Encuentra, elige y dale una nueva vida a tus mangas.
             </p>
+
+            <div class="como-funciona-grid">
+                <article>
+                    <span>01</span>
+                    <h3>Explora</h3>
+                    <p>Encuentra el manga que estás buscando en nuestro catálogo.</p>
+                </article>
+
+                <article>
+                    <span>02</span>
+                    <h3>Elige</h3>
+                    <p>Revisa su estado, volumen y precio antes de agregarlo al carrito.</p>
+                </article>
+
+                <article>
+                    <span>03</span>
+                    <h3>Dale una nueva vida</h3>
+                    <p>Compra mangas de segunda mano y permite que otra persona vuelva a disfrutarlos.</p>
+                </article>
+            </div>
         </section>
 
         <section id="vender">
@@ -75,6 +95,77 @@
             <p>
                 ¿Tienes mangas que ya no lees? Puedes venderlos con nosotros.
             </p>
+
+            <div class="venta-tarjeta">
+                <form id="formulario-venta" novalidate>
+                    <div class="venta-grid">
+                        <div class="campo-venta campo-venta-completo">
+                            <label for="titulo-manga">Título del manga</label>
+                            <input id="titulo-manga" name="titulo" type="text" autocomplete="off" required>
+                            <p class="mensaje-error" aria-live="polite"></p>
+                        </div>
+
+                        <div class="campo-venta">
+                            <label for="volumen-manga">Volumen</label>
+                            <input id="volumen-manga" name="volumen" type="number" min="1" step="1" inputmode="numeric" required>
+                            <p class="mensaje-error" aria-live="polite"></p>
+                        </div>
+
+                        <div class="campo-venta">
+                            <label for="genero-manga">Género</label>
+                            <select id="genero-manga" name="genero" required>
+                                <option value="">Selecciona un género</option>
+                                <option value="Shonen">Shonen</option>
+                                <option value="Seinen">Seinen</option>
+                                <option value="Shojo">Shojo</option>
+                                <option value="Josei">Josei</option>
+                                <option value="Kodomo">Kodomo</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                            <p class="mensaje-error" aria-live="polite"></p>
+                        </div>
+
+                        <div class="campo-venta">
+                            <label for="autor-manga">Autor</label>
+                            <input id="autor-manga" name="autor" type="text" autocomplete="off" required>
+                            <p class="mensaje-error" aria-live="polite"></p>
+                        </div>
+
+                        <div class="campo-venta">
+                            <label for="estado-manga">Estado</label>
+                            <select id="estado-manga" name="estado" required>
+                                <option value="">Selecciona el estado</option>
+                                <option value="Como nuevo">Como nuevo</option>
+                                <option value="Muy buen estado">Muy buen estado</option>
+                                <option value="Buen estado">Buen estado</option>
+                                <option value="Estado aceptable">Estado aceptable</option>
+                            </select>
+                            <p class="mensaje-error" aria-live="polite"></p>
+                        </div>
+
+                        <div class="campo-venta">
+                            <label for="precio-manga">Precio</label>
+                            <input id="precio-manga" name="precio" type="number" min="1" step="1" inputmode="decimal" required>
+                            <p class="mensaje-error" aria-live="polite"></p>
+                        </div>
+
+                        <div class="campo-venta">
+                            <label for="nombre-vendedor">Tu nombre</label>
+                            <input id="nombre-vendedor" name="nombre" type="text" autocomplete="name" required>
+                            <p class="mensaje-error" aria-live="polite"></p>
+                        </div>
+
+                        <div class="campo-venta">
+                            <label for="email-vendedor">Correo electrónico</label>
+                            <input id="email-vendedor" name="email" type="email" autocomplete="email" required>
+                            <p class="mensaje-error" aria-live="polite"></p>
+                        </div>
+                    </div>
+
+                    <button class="boton-registro" type="submit">Enviar solicitud</button>
+                    <p id="mensaje-venta" class="mensaje-registro" aria-live="polite"></p>
+                </form>
+            </div>
         </section>
     </main>
 
