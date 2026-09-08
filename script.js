@@ -661,6 +661,7 @@ function mostrarCarrito() {
     if (carrito.length === 0) {
         estadoCarritoVacio.hidden = false;
         resumenCarrito.hidden = true;
+        document.querySelector("#total-carrito").textContent = "$0";
         return;
     }
 
