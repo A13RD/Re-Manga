@@ -47,13 +47,30 @@ Página principal de Re-Manga.
 Contiene las diferentes secciones de la página:
 
 - `header` y `nav`: navegación entre las páginas y secciones.
+
+![Escritorio Inicio](./images/readme/Nav.png)
+
 - `section#hero`: presentación inicial de la página.
+
+![Celular hero](./images/readme/hero1.png)
+
 - `section#catalogo`: filtros, búsqueda y catálogo de mangas.
+
+![Escritorio catalogo](./images/readme/catalogo1.png)
+
 - `section#como-funciona`: explicación del funcionamiento de la página.
+
+![Escritorio como funciona](./images/readme/funciona1.png)
+
 - `section#vender`: formulario para vender mangas.
+
+![Escritorio como funciona](./images/readme/vender1.png)
+
 - `footer`: información final de la página.
 
 Las tarjetas del catálogo no están escritas directamente en HTML, sino que son generadas mediante JavaScript.
+
+![Escritorio como funciona](./images/readme/footer1.png)
 
 ### `registro.html`
 
@@ -61,11 +78,17 @@ Página utilizada para registrar nuevos usuarios.
 
 Contiene un formulario con los campos necesarios para el registro y mensajes para mostrar errores o confirmar que el registro fue exitoso.
 
+![Escritorio como funciona](./images/readme/registro1.png)
+
 ### `carrito.html`
 
 Página donde se muestran los mangas agregados al carrito.
 
+![Escritorio como funciona](./images/readme/carrito1.png)
+
 Permite modificar cantidades, eliminar productos, vaciar el carrito y consultar el valor total de la compra.
+
+![Escritorio como funciona](./images/readme/carrito2.png)
 
 ### `script.js`
 
@@ -254,7 +277,9 @@ Este proyecto es un sitio estático (HTML, CSS y JavaScript) y no requiere insta
 
 ## Despliegue
 
-El proyecto puede desplegarse como una aplicación frontend estática mediante Vercel.
+El proyecto se encuentra desplegado en vercel y conectado en GitHub, [Pagina en Vercel](https://re-manga.vercel.app).
+
+![Vercel Deploy](./images/readme/VercelDeploy.jpg)
 
 ## Futuras mejoras
 
