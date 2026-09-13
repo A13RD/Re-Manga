@@ -268,8 +268,8 @@ se conecta con:
 - Separación entre estructura (HTML), estilos (CSS) y comportamiento (JavaScript).
 - Diseño pensado para adaptarse a distintos tamaños de pantalla.
 - Proyecto preparado para conectarse en el futuro a una API REST y una base de datos.
-
-#### Falta Agregar algunas especificaciones
+- Uso de Flexbox para alinear elementos en una sola dirección y que se adapten al contenido, como la barra de navegación (`nav`), el hero de bienvenida, los filtros de género y los botones de cada tarjeta del carrito.
+- Uso de CSS Grid para organizar contenido en filas y columnas de forma estructurada, como el catálogo de mangas (`#catalogo-grid`), las tarjetas de "Cómo funciona", el resumen del carrito y los campos del formulario de venta.
 
 ## Ejecución
 
