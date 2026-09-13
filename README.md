@@ -298,4 +298,6 @@ Frontend → API REST → Base de datos
 
 ---
 
-El desarrollo contó con apoyo de herramientas de inteligencia artificial para tareas de implementación y organización del código.
+El desarrollo contó con apoyo de herramientas de inteligencia artificial principalmente en dos frentes. Por un lado, se usó para generar una base inicial de estilos en CSS, especialmente para separar y organizar las clases de cada elemento de la página (tarjetas del catálogo, formularios, carrito, header), lo cual ayudó a mantener un código más ordenado y evitar estilos repetidos. Por otro lado, se usó para depurar errores puntuales durante el desarrollo, como fallos en la lógica de filtros del catálogo y problemas de renderizado en las tarjetas generadas dinámicamente.
+
+En ambos casos, el código sugerido no se usó tal cual: se ajustaron nombres de clases y variables para que fueran consistentes con el resto del proyecto (por ejemplo, mantener todo en español), se modificaron detalles de estilo para que coincidieran con la paleta de colores y el diseño ya definido, y se revisó línea por línea para entender qué hacía cada parte antes de integrarla al proyecto.
