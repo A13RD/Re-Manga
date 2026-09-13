@@ -69,20 +69,89 @@ Permite modificar cantidades, eliminar productos, vaciar el carrito y consultar 
 
 ### `script.js`
 
-Contiene la lógica y las funciones que hacen interactiva la página.
+Archivo encargado de la funcionalidad y la interacción de la página. Contiene las funciones relacionadas con el catálogo, carrito, registro, formulario de venta y modo oscuro.
 
-Entre sus principales funciones están:
+#### Catálogo
 
-```text
-Catálogo → filtros, búsqueda y "Ver más"
-Carrito → agregar, eliminar y modificar cantidades
-Registro → validación y almacenamiento de usuarios
-Tema → modo claro / oscuro
-Formulario → envío de solicitudes para vender manga
+El catálogo se encuentra almacenado en un arreglo llamado `mangas`, donde cada manga tiene información como título, volumen, autor, género, precio, estado e imagen.
+
+La función `mostrarMangas()` se encarga de tomar los mangas disponibles y generar las tarjetas dentro del catálogo.
+
+Cada tarjeta muestra la información del manga y los botones necesarios para interactuar con él, como agregarlo al carrito.
+
+También se utilizan funciones para:
+
+- `normalizarGenero()`: permite manejar los nombres de los géneros de una forma más uniforme.
+- `filtrarYMostrarMangas()`: combina la búsqueda y el filtro por género para mostrar los resultados correspondientes.
+- `mostrarMangas()`: genera las tarjetas de los mangas y las coloca en el HTML.
+- `actualizarBotonVerMas()`: controla si se muestra o no el botón de "Ver más".
+- `buscarMangas()`: permite buscar mangas escribiendo su título.
+- `filtrarPorGenero()`: permite seleccionar un género específico.
+- `verMas()`: aumenta la cantidad de mangas visibles para mostrar más tarjetas.
+
+De esta manera, las tarjetas no tienen que escribirse una por una en el HTML, sino que JavaScript las genera automáticamente a partir del arreglo de mangas.
+
+#### Carrito
+
+El carrito utiliza `localStorage` para guardar los productos seleccionados y mantenerlos aunque se cambie de página.
+
+Las principales funciones son:
+
+- `obtenerCarrito()`: obtiene los productos que están guardados en el carrito.
+- `guardarCarrito()`: guarda los cambios realizados en el carrito.
+- `actualizarContadorCarrito()`: actualiza el número de productos que aparece junto al botón del carrito.
+- `agregarAlCarrito()`: agrega un manga al carrito o aumenta su cantidad si ya existe.
+- `eliminarDelCarrito()`: elimina un manga del carrito.
+- `cambiarCantidad()`: permite aumentar o disminuir la cantidad de un producto.
+- `vaciarCarrito()`: elimina todos los productos del carrito.
+- `mostrarCarrito()`: genera y muestra los productos que actualmente están dentro del carrito.
+- `actualizarTotalCarrito()`: calcula y muestra el valor total de los productos.
+
+#### Registro de usuarios
+
+El registro utiliza un formulario para obtener los datos del usuario y realizar una validación básica antes de guardarlos.
+
+Las funciones principales son:
+
+- `validarRegistro()`: revisa que los datos ingresados cumplan las condiciones necesarias.
+- `registrarUsuario()`: guarda el nuevo usuario en `localStorage` después de validar la información.
+- `mostrarMensajeRegistro()`: muestra mensajes de error o confirmación en el formulario.
+
+Los usuarios se almacenan en `localStorage` utilizando la clave `usuarios`.
+
+#### Formulario para vender manga
+
+El formulario de venta permite ingresar la información necesaria sobre un manga que el usuario desea vender.
+
+La función encargada de este formulario obtiene los datos ingresados y muestra el resultado correspondiente.
+
+Actualmente funciona como una simulación en el frontend y posteriormente podría conectarse a una API y una base de datos.
+
+#### Modo oscuro
+
+El modo oscuro permite cambiar entre el tema claro y oscuro de la página.
+
+Las funciones principales son:
+
+- `actualizarBotonTema()`: cambia el icono y el estado del botón según el tema actual.
+- El botón de tema agrega o quita la clase `modo-oscuro` del `body`.
+- `localStorage` guarda el tema seleccionado para mantenerlo cuando se vuelve a cargar la página.
+
+#### Conexión con HTML
+
+JavaScript se conecta con los archivos HTML utilizando `querySelector`, IDs y clases para encontrar los elementos que necesita modificar.
+
+Por ejemplo:
+
+```javascript
+const catalogoGridContainer = document.querySelector("#catalogo-grid");
 ```
 
+Busca el elemento donde se deben colocar las tarjetas del catálogo.
 
-También utiliza `localStorage` para conservar información como el carrito, los usuarios registrados y el tema seleccionado.
+Después, `mostrarMangas()` genera el contenido y lo coloca dentro de ese elemento.
+
+También se utilizan eventos como `click` y `submit` para detectar las acciones del usuario y ejecutar las funciones correspondientes.
 
 ### `styles.css`
 
