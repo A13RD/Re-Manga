@@ -228,9 +228,10 @@ Los archivos HTML conectan el CSS mediante:
 
 ```html
 <link rel="stylesheet" href="styles.css">
+```
 
 A partir de ahí, las etiquetas, IDs y clases del HTML son utilizadas por styles.css para determinar cómo se ve cada elemento.
-```
+
 
 Por ejemplo:
 
@@ -305,14 +306,13 @@ Actualmente algunas funcionalidades (usuarios, carrito) usan `localStorage` como
 - Catálogo alimentado por una API externa de mangas que proporcionen informacion adicional como dia de publicacion sipnosis del capitulo, cantidad de paginas e idioma -**`Jikan`** o **`MangaDex`**, sujeto a evaluación según disponibilidad y límites de uso-.
 - Formulario de ventas conectado a la base de datos, en lugar de guardarse solo en el navegador.
 - Carrito de compras funcional, con relaciones reales entre usuario, producto y pedido en la base de datos.
-- Gestión de inventario en tiempo real, para evitar condiciones de carrera como consultas fantasma o lecturas inconsistentes cuando varios usuarios interactúan al mismo tiempo.
-- 
+- Gestión de inventario en tiempo real, para evitar condiciones de carrera como consultas fantasma o lecturas inconsistentes cuando varios usuarios interactúan al mismo tiempo. 
 
 ```
 Frontend → API REST → Base de datos
 ```
 
----
+## Uso de Inteligencia Artificial
 
 El desarrollo contó con apoyo de herramientas de inteligencia artificial principalmente en dos frentes. Por un lado, se usó para generar una base inicial de estilos en CSS, especialmente para separar y organizar las clases de cada elemento de la página (tarjetas del catálogo, formularios, carrito, header), lo cual ayudó a mantener un código más ordenado y evitar estilos repetidos. Por otro lado, se usó para depurar errores puntuales durante el desarrollo, como fallos en la lógica de filtros del catálogo y problemas de renderizado en las tarjetas generadas dinámicamente.
 
