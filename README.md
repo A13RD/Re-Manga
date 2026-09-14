@@ -59,11 +59,11 @@ Contiene las diferentes secciones de la página:
 
 - `section#como-funciona`: explicación del funcionamiento de la página.
 
-![Escritorio como funciona](./images/readme/funciona1.png)
+![Escritorio como funciona](./images/readme/Funciona1.png)
 
 - `section#vender`: formulario para vender mangas.
 
-![Celular vender](./images/readme/vender1.png)
+![Celular vender](./images/readme/Vender1.png)
 
 - `footer`: información final de la página.
 
