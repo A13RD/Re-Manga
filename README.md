@@ -21,7 +21,6 @@ Re-Manga es un proyecto académico de tienda web para la compra y venta de manga
 - Modo oscuro / claro.
 - Formulario para enviar solicitudes de venta de mangas.
 - Diseño responsive.
-
 - Animaciones simples sobre las cards del catalogo y al cargar cada pagina
 
 ## Estructura del proyecto
@@ -271,6 +270,22 @@ se conecta con:
 - Uso de Flexbox para alinear elementos en una sola dirección y que se adapten al contenido, como la barra de navegación (`nav`), el hero de bienvenida, los filtros de género y los botones de cada tarjeta del carrito.
 - Uso de CSS Grid para organizar contenido en filas y columnas de forma estructurada, como el catálogo de mangas (`#catalogo-grid`), las tarjetas de "Cómo funciona", el resumen del carrito y los campos del formulario de venta.
 
+## Desafíos del desarrollo
+
+**Organización del layout y elección entre Flexbox y Grid:** Uno de los primeros retos fue dividir la página en secciones que fueran funcionales, responsive y visualmente limpias. Grid resultó más complejo de ajustar pensando en posibles errores visuales en pantallas pequeñas, por lo que en varios casos terminó siendo más práctico usar Flexbox, reservando Grid para las secciones donde realmente se necesitaba una estructura de filas y columnas bien definida (como el catálogo).
+
+**Imágenes de las tarjetas del catálogo:** Inicialmente las tarjetas de manga se generaban usando enlaces de imágenes externas, pero esto generaba una dependencia directa de la disponibilidad de esos sitios: si la imagen dejaba de existir o el sitio caía, la tarjeta se rompía. Para evitarlo, se decidió usar imágenes locales en buena resolución, almacenadas dentro del propio proyecto.
+
+**Persistencia de datos sin backend:** Como el proyecto no cuenta con una base de datos, guardar la información de formularios (registro, ventas) requirió investigar a fondo el funcionamiento de `localStorage` para lograr una persistencia confiable en el navegador.
+
+**Carrito de compras entre páginas:** Implementar el carrito —y lograr que las tarjetas de producto se generaran correctamente en una página distinta a la del catálogo— exigió profundizar aún más en el uso de `localStorage`, ya que los datos debían mantenerse disponibles al navegar entre páginas. Este aprendizaje terminó facilitando otras funcionalidades que también necesitaban guardarse, como la preferencia de modo oscuro.
+
+**Carga progresiva del catálogo:** Con muchos mangas mostrados a la vez, la página crecía demasiado y era difícil llegar a las siguientes secciones del `index.html`. La solución fue implementar una función que carga los mangas de 6 en 6 mediante un botón, controlando además que ese botón no interfiriera con los filtros de género ni con la búsqueda por texto.
+
+**Reinicio del total del carrito:** Se detectó un error en el que, al vaciar el carrito, el total de la compra no volvía a 0 sino que conservaba el último valor acumulado. Se corrigió forzando el total a 0 automáticamente cada vez que el carrito queda vacío.
+
+**Normalización de géneros:** Algunos mangas tenían el mismo género escrito de formas distintas (por ejemplo, variaciones de mayúsculas/minúsculas o acentos). Para evitar que los filtros fallaran por estas diferencias, se implementó una función de normalización de nombres que se ejecuta antes de renderizar el contenido en el HTML.
+
 ## Ejecución
 
 Este proyecto es un sitio estático (HTML, CSS y JavaScript) y no requiere instalación de dependencias ni servidor. Puede ejecutarse abriendo directamente el archivo `index.html` en el navegador.
@@ -285,12 +300,12 @@ El proyecto se encuentra desplegado en vercel y conectado en GitHub, [Pagina en 
 
 Actualmente algunas funcionalidades (usuarios, carrito) usan localStorage como solución temporal en el frontend. La idea a futuro es conectar el proyecto a una API REST y una base de datos, especialmente para:
 
-- Usuarios con base de datos, registro de compras o ventas y calificaciones por promedio en ventas;
+- Usuarios con base de datos, registro de compras o ventas y calificaciones por promedio en ventas, recomendable una base de datos relacional con bases firmes y alta confidencia de datos debido a la incidencia directa de los datos entre las posbiles distintas tablas (y uso de supabase);
 - Registro con verificacion de correo y direccion de usuario;
 - Catálogo por medio de API (Jikan o MangaDex sujeto a cambios);
 - Formulario de ventas funcional con base de datos;
 - Carrito funcional con relaciones en la base de datos;
-- Gestion de inventario.
+- Gestion de inventario para evitar consultas fantasma o consultas sucias.
 
 ```
 Frontend → API REST → Base de datos
