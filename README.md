@@ -298,14 +298,15 @@ El proyecto se encuentra desplegado en vercel y conectado en GitHub, [Pagina en 
 
 ## Futuras mejoras
 
-Actualmente algunas funcionalidades (usuarios, carrito) usan localStorage como solución temporal en el frontend. La idea a futuro es conectar el proyecto a una API REST y una base de datos, especialmente para:
+Actualmente algunas funcionalidades (usuarios, carrito) usan `localStorage` como solución temporal en el frontend, mientras no existe un backend real. La idea a futuro es conectar el proyecto a una API REST y una base de datos, especialmente para:
 
-- Usuarios con base de datos, registro de compras o ventas y calificaciones por promedio en ventas, recomendable una base de datos relacional con bases firmes y alta confidencia de datos debido a la incidencia directa de los datos entre las posbiles distintas tablas (y uso de supabase);
-- Registro con verificacion de correo y direccion de usuario;
-- Catálogo por medio de API (Jikan o MangaDex sujeto a cambios);
-- Formulario de ventas funcional con base de datos;
-- Carrito funcional con relaciones en la base de datos;
-- Gestion de inventario para evitar consultas fantasma o consultas sucias.
+- Manejar usuarios en una base de datos real, junto con el registro de compras/ventas y un sistema de calificación promedio por vendedor. Al haber relaciones directas entre estas tablas (usuarios, ventas, calificaciones), lo más recomendable es una base de datos relacional que garantice consistencia entre los datos (por ejemplo, usando Supabase).
+- Registro de usuarios con verificación de correo electrónico y dirección de envío.
+- Catálogo alimentado por una API externa de mangas que proporcionen informacion adicional como dia de publicacion sipnosis del capitulo, cantidad de paginas e idioma -**`Jikan`** o **`MangaDex`**, sujeto a evaluación según disponibilidad y límites de uso-.
+- Formulario de ventas conectado a la base de datos, en lugar de guardarse solo en el navegador.
+- Carrito de compras funcional, con relaciones reales entre usuario, producto y pedido en la base de datos.
+- Gestión de inventario en tiempo real, para evitar condiciones de carrera como consultas fantasma o lecturas inconsistentes cuando varios usuarios interactúan al mismo tiempo.
+- 
 
 ```
 Frontend → API REST → Base de datos
