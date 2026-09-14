@@ -63,13 +63,13 @@ Contiene las diferentes secciones de la página:
 
 - `section#vender`: formulario para vender mangas.
 
-![Escritorio como funciona](./images/readme/vender1.png)
+![Celular vender](./images/readme/vender1.png)
 
 - `footer`: información final de la página.
 
 Las tarjetas del catálogo no están escritas directamente en HTML, sino que son generadas mediante JavaScript.
 
-![Escritorio como funciona](./images/readme/footer1.png)
+![Celular footer](./images/readme/footer1.png)
 
 ### `registro.html`
 
@@ -77,17 +77,17 @@ Página utilizada para registrar nuevos usuarios.
 
 Contiene un formulario con los campos necesarios para el registro y mensajes para mostrar errores o confirmar que el registro fue exitoso.
 
-![Escritorio como funciona](./images/readme/registro1.png)
+![Escritorio Registro](./images/readme/registro1.png)
 
 ### `carrito.html`
 
 Página donde se muestran los mangas agregados al carrito.
 
-![Escritorio como funciona](./images/readme/carrito1.png)
+![Escritorio Carrito](./images/readme/carrito1.png)
 
 Permite modificar cantidades, eliminar productos, vaciar el carrito y consultar el valor total de la compra.
 
-![Escritorio como funciona](./images/readme/carrito2.png)
+![Celular Carrito](./images/readme/carrito2.png)
 
 ### `script.js`
 
