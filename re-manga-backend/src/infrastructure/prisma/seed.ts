@@ -1,5 +1,15 @@
-import { Role, MangaCondition } from '@prisma/client';
+import { Role, MangaCondition, Prisma } from '@prisma/client';
 import { prisma } from '../database/prismaClient';
+
+function mapCondition(estado: string): MangaCondition {
+  switch (estado.toLowerCase()) {
+    case 'como nuevo': return MangaCondition.LIKE_NEW;
+    case 'muy buen estado': return MangaCondition.GOOD;
+    case 'buen estado': return MangaCondition.GOOD;
+    case 'aceptable': return MangaCondition.FAIR;
+    default: return MangaCondition.POOR;
+  }
+}
 
 async function main() {
   console.log('Iniciando seed de base de datos...');
@@ -18,195 +28,66 @@ async function main() {
 
   console.log(`Usuario administrador creado con ID: ${adminUser.id}`);
 
-  // 2. Datos de los mangas iniciales
+  // 2. Datos de los mangas iniciales, extraídos de script.js
   const mangasData = [
-    {
-      title: 'Berserk',
-      volume: 1,
-      author: 'Kentaro Miura',
-      genre: 'Seinen, Fantasía Oscura',
-      description: 'Guts, un guerrero mercenario, viaja por el mundo en busca de venganza.',
-      image: '/images/berserk_1.jpg',
-      price: 15.99,
-      condition: MangaCondition.LIKE_NEW,
-      stock: 5,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'Vagabond',
-      volume: 1,
-      author: 'Takehiko Inoue',
-      genre: 'Seinen, Histórico, Artes Marciales',
-      description: 'La historia de Miyamoto Musashi, el espadachín más grande de Japón.',
-      image: '/images/vagabond_1.jpg',
-      price: 14.50,
-      condition: MangaCondition.GOOD,
-      stock: 3,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'Jujutsu Kaisen',
-      volume: 1,
-      author: 'Gege Akutami',
-      genre: 'Shonen, Acción, Sobrenatural',
-      description: 'Yuji Itadori se une a un club de ocultismo y termina comiéndose un dedo maldito.',
-      image: '/images/jjk_1.jpg',
-      price: 10.00,
-      condition: MangaCondition.NEW,
-      stock: 10,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'Bleach',
-      volume: 1,
-      author: 'Tite Kubo',
-      genre: 'Shonen, Acción, Sobrenatural',
-      description: 'Ichigo Kurosaki obtiene los poderes de un Shinigami.',
-      image: '/images/bleach_1.jpg',
-      price: 9.00,
-      condition: MangaCondition.FAIR,
-      stock: 2,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'Naruto',
-      volume: 1,
-      author: 'Masashi Kishimoto',
-      genre: 'Shonen, Acción, Aventura',
-      description: 'Un joven ninja busca reconocimiento y sueña con convertirse en el líder de su aldea.',
-      image: '/images/naruto_1.jpg',
-      price: 8.50,
-      condition: MangaCondition.POOR,
-      stock: 1,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'One Punch Man',
-      volume: 1,
-      author: 'ONE, Yusuke Murata',
-      genre: 'Seinen, Acción, Comedia',
-      description: 'Saitama es un héroe que derrota a cualquier oponente con un solo golpe.',
-      image: '/images/opm_1.jpg',
-      price: 12.00,
-      condition: MangaCondition.LIKE_NEW,
-      stock: 6,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'One Piece',
-      volume: 1,
-      author: 'Eiichiro Oda',
-      genre: 'Shonen, Aventura, Fantasía',
-      description: 'Monkey D. Luffy y su tripulación buscan el tesoro más grande del mundo.',
-      image: '/images/one_piece_1.jpg',
-      price: 11.50,
-      condition: MangaCondition.GOOD,
-      stock: 8,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'Hunter x Hunter',
-      volume: 1,
-      author: 'Yoshihiro Togashi',
-      genre: 'Shonen, Acción, Aventura',
-      description: 'Gon Freecss decide convertirse en Cazador para encontrar a su padre.',
-      image: '/images/hxh_1.jpg',
-      price: 13.00,
-      condition: MangaCondition.NEW,
-      stock: 4,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'Tokyo Ghoul',
-      volume: 1,
-      author: 'Sui Ishida',
-      genre: 'Seinen, Horror, Acción',
-      description: 'Ken Kaneki se convierte en medio ghoul tras un encuentro casi fatal.',
-      image: '/images/tokyo_ghoul_1.jpg',
-      price: 10.50,
-      condition: MangaCondition.GOOD,
-      stock: 7,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'Fullmetal Alchemist',
-      volume: 1,
-      author: 'Hiromu Arakawa',
-      genre: 'Shonen, Aventura, Fantasía',
-      description: 'Dos hermanos buscan la piedra filosofal para restaurar sus cuerpos.',
-      image: '/images/fma_1.jpg',
-      price: 14.00,
-      condition: MangaCondition.NEW,
-      stock: 5,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'Blue Lock',
-      volume: 1,
-      author: 'Muneyuki Kaneshiro, Yusuke Nomura',
-      genre: 'Shonen, Deportes',
-      description: 'Un controvertido proyecto para crear al mejor delantero del mundo.',
-      image: '/images/blue_lock_1.jpg',
-      price: 11.00,
-      condition: MangaCondition.NEW,
-      stock: 12,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'Oyasumi Punpun',
-      volume: 1,
-      author: 'Inio Asano',
-      genre: 'Seinen, Drama, Psicológico',
-      description: 'La vida cotidiana y las luchas internas del joven Punpun Punyama.',
-      image: '/images/punpun_1.jpg',
-      price: 16.00,
-      condition: MangaCondition.LIKE_NEW,
-      stock: 2,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'Akira',
-      volume: 1,
-      author: 'Katsuhiro Otomo',
-      genre: 'Seinen, Ciencia Ficción, Cyberpunk',
-      description: 'En un futuro post-apocalíptico, unos jóvenes se ven envueltos en un proyecto militar secreto.',
-      image: '/images/akira_1.jpg',
-      price: 25.00,
-      condition: MangaCondition.GOOD,
-      stock: 1,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'Neon Genesis Evangelion',
-      volume: 1,
-      author: 'Yoshiyuki Sadamoto',
-      genre: 'Seinen, Ciencia Ficción, Mecha',
-      description: 'Adolescentes pilotan gigantes biológicos para defender la Tierra de los Ángeles.',
-      image: '/images/evangelion_1.jpg',
-      price: 18.00,
-      condition: MangaCondition.LIKE_NEW,
-      stock: 3,
-      sellerId: adminUser.id,
-    },
-    {
-      title: 'Dragon Ball',
-      volume: 1,
-      author: 'Akira Toriyama',
-      genre: 'Shonen, Aventura, Artes Marciales',
-      description: 'Goku y Bulma inician su viaje para encontrar las Esferas del Dragón.',
-      image: '/images/dragon_ball_1.jpg',
-      price: 9.50,
-      condition: MangaCondition.FAIR,
-      stock: 4,
-      sellerId: adminUser.id,
-    }
+    { titulo: "Berserk", volumen: 28, autor: "Kentaro Miura", genero: "Seinen", precio: 45000, estado: "Muy buen estado", imagen: "/images/berserk-vol28.jpg" },
+    { titulo: "Vagabond", volumen: 24, autor: "Takehiko Inoue", genero: "Seinen", precio: 40000, estado: "Buen estado", imagen: "/images/vagabond-vol24.jpg" },
+    { titulo: "Jujutsu Kaisen", volumen: 1, autor: "Gege Akutami", genero: "Shonen", precio: 35000, estado: "Como nuevo", imagen: "/images/jujutsukaisen-vol1.jpg" },
+    { titulo: "Bleach", volumen: 40, autor: "Tite Kubo", genero: "Shonen", precio: 25000, estado: "Aceptable", imagen: "/images/bleach-vol40.jpg" },
+    { titulo: "Naruto", volumen: 47, autor: "Masashi Kishimoto", genero: "Shonen", precio: 28000, estado: "Buen estado", imagen: "/images/naruto-vol47.jpg" },
+    { titulo: "One Punch Man", volumen: 32, autor: "ONE & Yusuke Murata", genero: "Seinen", precio: 32000, estado: "Buen estado", imagen: "/images/onepunchman-vol32.jpg" },
+    { titulo: "One Piece", volumen: 104, autor: "Eiichiro Oda", genero: "Shonen", precio: 30000, estado: "Buen estado", imagen: "/images/onepiece-vol104.jpg" },
+    { titulo: "Hunter x Hunter", volumen: 37, autor: "Yoshihiro Togashi", genero: "Shonen", precio: 38000, estado: "Como nuevo", imagen: "/images/hunterxhunter-vol37.jpg" },
+    { titulo: "Tokyo Ghoul", volumen: 14, autor: "Sui Ishida", genero: "Seinen", precio: 34000, estado: "Muy buen estado", imagen: "/images/tokyoghoul-vol14.jpg" },
+    { titulo: "Fullmetal Alchemist", volumen: 19, autor: "Hiromu Arakawa", genero: "Shonen", precio: 36000, estado: "Buen estado", imagen: "/images/fullmetal-vol19.jpg" },
+    { titulo: "Blue Lock", volumen: 20, autor: "Muneyuki Kaneshiro", genero: "Shonen", precio: 42000, estado: "Como nuevo", imagen: "/images/bluelock-vol20.jpg" },
+    { titulo: "Oyasumi Punpun", volumen: 12, autor: "Inio Asano", genero: "Seinen", precio: 45000, estado: "Muy buen estado", imagen: "/images/oyasumipunpun-vol12.webp" },
+    { titulo: "Nana", volumen: 21, autor: "Ai Yazawa", genero: "Josei", precio: 35000, estado: "Buen estado", imagen: "/images/nana-vol2.jpg" },
+    { titulo: "Akira", volumen: 1, autor: "Katsuhiro Otomo", genero: "Seinen", precio: 60000, estado: "Como nuevo", imagen: "/images/akira-vol1.jpg" },
+    { titulo: "Neon Genesis Evangelion", volumen: 3, autor: "Yoshiyuki Sadamoto", genero: "Seinen", precio: 48000, estado: "Buen estado", imagen: "/images/neongenesisevangelion-vol3.webp" },
+    { titulo: "Dragon Ball", volumen: 8, autor: "Akira Toriyama", genero: "Shonen", precio: 25000, estado: "Aceptable", imagen: "/images/dragonball-vol8.webp" },
+    { titulo: "Paradise Kiss", volumen: 1, autor: "Ai Yazawa", genero: "Josei", precio: 40000, estado: "Buen estado", imagen: "/images/paradisekiss-vol1.jpg" },
+    { titulo: "Nodame Cantabile", volumen: 6, autor: "Tomoko Ninomiya", genero: "Josei", precio: 32000, estado: "Como nuevo", imagen: "/images/nodamecantabile-vol6.webp" },
+    { titulo: "Gokinjo Monogatari", volumen: 1, autor: "Ai Yazawa", genero: "Shoujo", precio: 38000, estado: "Aceptable", imagen: "/images/gokinjomonogatari-vol1.jpg" },
+    { titulo: "Ao Haru Ride", volumen: 1, autor: "Io Sakisaka", genero: "Shoujo", precio: 30000, estado: "Aceptable", imagen: "/images/aoharuride-vol1.jpg" },
+    { titulo: "Fruits Basket", volumen: 5, autor: "Natsuki Takaya", genero: "Shoujo", precio: 34000, estado: "Como nuevo", imagen: "/images/fruitsbasket-vol5.jpg" },
+    // NOTA: El ID 22 en el array original (Bleach vol 40) representa un producto diferente al ID 4
+    // porque tiene diferente estado y precio. Lo mantenemos como producto separado.
+    { titulo: "Bleach", volumen: 40, autor: "Tite Kubo", genero: "Shounen", precio: 45000, estado: "Como nuevo", imagen: "/images/bleach-vol40.jpg" }
   ];
 
-  for (const manga of mangasData) {
-    const createdManga = await prisma.manga.create({
-      data: manga,
+  for (const m of mangasData) {
+    const condition = mapCondition(m.estado);
+    const priceDecimal = new Prisma.Decimal(m.precio);
+
+    const existingManga = await prisma.manga.findFirst({
+      where: {
+        title: m.titulo,
+        volume: m.volumen,
+        condition: condition,
+        sellerId: adminUser.id
+      }
     });
-    console.log(`Manga insertado: ${createdManga.title} - Vol. ${createdManga.volume}`);
+
+    if (!existingManga) {
+      const createdManga = await prisma.manga.create({
+        data: {
+          title: m.titulo,
+          volume: m.volumen,
+          author: m.autor,
+          genre: m.genero,
+          description: `Tomo ${m.volumen} del manga ${m.titulo}. Estado: ${m.estado}`,
+          image: m.imagen,
+          price: priceDecimal,
+          condition: condition,
+          stock: 1,
+          sellerId: adminUser.id
+        }
+      });
+      console.log(`Manga insertado: ${createdManga.title} - Vol. ${createdManga.volume} - ${m.estado}`);
+    } else {
+      console.log(`Manga saltado (ya existe): ${m.titulo} - Vol. ${m.volumen} - ${m.estado}`);
+    }
   }
 
   console.log('Seed completado satisfactoriamente.');
