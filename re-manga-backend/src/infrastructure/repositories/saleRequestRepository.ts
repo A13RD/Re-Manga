@@ -36,14 +36,14 @@ export class SaleRequestRepository implements ISaleRequestRepository {
       data: {
         userId: userId,
         title: request.title,
-        volume: request.volume,
+        volume: request.volume ?? null,
         author: request.author,
         genre: request.genre,
         description: request.description,
-        image: request.image,
+        image: request.image ?? null,
         proposedPrice: new Prisma.Decimal(request.proposedPrice),
         condition: mapCondition(request.condition),
-        mangaId: request.mangaId
+        mangaId: request.mangaId ?? null
       }
     });
     return created as any;

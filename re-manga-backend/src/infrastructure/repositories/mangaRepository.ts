@@ -38,11 +38,11 @@ export class MangaRepository implements IMangaRepository {
     const created = await prisma.manga.create({
       data: {
         title: manga.title,
-        volume: manga.volume,
+        volume: manga.volume ?? null,
         author: manga.author,
         genre: manga.genre,
         description: manga.description,
-        image: manga.image,
+        image: manga.image ?? null,
         price: new Prisma.Decimal(manga.price),
         condition: mapCondition(manga.condition),
         stock: manga.stock

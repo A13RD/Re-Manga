@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import { MangaUseCase } from '../../application/mangaUseCase';
+import { MangaUseCase } from '../../application/mangaUseCase.js';
 
 export class MangaController {
   constructor(private mangaUseCase: MangaUseCase) {}
 
   getAllMangas = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const page = parseInt(req.query.page as string) || 1;
-      const pageSize = parseInt(req.query.pageSize as string) || 6;
+      const page = parseInt(req.query['page'] as string) || 1;
+      const pageSize = parseInt(req.query['pageSize'] as string) || 6;
 
       if (page < 1 || pageSize < 1) {
         return res.status(400).json({ message: 'Invalid pagination parameters' });
@@ -22,10 +22,12 @@ export class MangaController {
 
   getMangaById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const manga = await this.mangaUseCase.getMangaById(req.params.id);
+      const id = req.params['id'];
+      if (typeof id !== 'string') return res.status(400).json({ message: 'Missing manga id' });
+      const manga = await this.mangaUseCase.getMangaById(id);
       res.json(manga);
-    } catch (error: any) {
-      if (error.message === 'Manga not found') {
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message === 'Manga not found') {
         res.status(404).json({ message: error.message });
       } else {
         next(error);
@@ -35,7 +37,7 @@ export class MangaController {
 
   createManga = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { title, author, genre, description, price, condition, stock } = req.body;
+      const { title, author, genre, description, price, condition, stock } = req.body as Record<string, unknown>;
       if (!title || !author || !genre || !description || price === undefined || !condition || stock === undefined) {
         return res.status(400).json({ message: 'Missing required fields' });
       }
@@ -49,10 +51,12 @@ export class MangaController {
 
   updateManga = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const updatedManga = await this.mangaUseCase.updateManga(req.params.id, req.body);
+      const id = req.params['id'];
+      if (typeof id !== 'string') return res.status(400).json({ message: 'Missing manga id' });
+      const updatedManga = await this.mangaUseCase.updateManga(id, req.body);
       res.json(updatedManga);
-    } catch (error: any) {
-      if (error.message === 'Manga not found') {
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message === 'Manga not found') {
         res.status(404).json({ message: error.message });
       } else {
         next(error);
@@ -62,10 +66,12 @@ export class MangaController {
 
   deleteManga = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await this.mangaUseCase.deleteManga(req.params.id);
+      const id = req.params['id'];
+      if (typeof id !== 'string') return res.status(400).json({ message: 'Missing manga id' });
+      await this.mangaUseCase.deleteManga(id);
       res.status(204).send();
-    } catch (error: any) {
-      if (error.message === 'Manga not found') {
+    } catch (error: unknown) {
+      if (error instanceof Error && error.message === 'Manga not found') {
         res.status(404).json({ message: error.message });
       } else {
         next(error);
